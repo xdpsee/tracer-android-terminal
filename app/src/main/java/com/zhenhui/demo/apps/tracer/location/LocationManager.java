@@ -16,10 +16,13 @@ public class LocationManager implements AMapLocationListener {
 
     private AMapLocationClientOption locationOption;
 
-    public LocationManager(Context context) {
+    private LocationListener listener;
+
+    public LocationManager(Context context, LocationListener listener) {
         this.locationOption = getDefaultOption();
         this.locationClient = new AMapLocationClient(context);
         this.locationClient.setLocationListener(this);
+        this.listener = listener;
     }
 
     public boolean isStarted() {
@@ -40,7 +43,9 @@ public class LocationManager implements AMapLocationListener {
     public void onLocationChanged(AMapLocation location) {
 
         Log.d(TAG, location.toStr());
-
+        if (location != null && location.getErrorCode() == 0 && listener != null) {
+            listener.locationChanged(location);
+        }
     }
 
     private AMapLocationClientOption getDefaultOption() {
