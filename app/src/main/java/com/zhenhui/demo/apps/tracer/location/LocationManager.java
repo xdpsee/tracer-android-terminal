@@ -1,7 +1,6 @@
 package com.zhenhui.demo.apps.tracer.location;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -42,7 +41,6 @@ public class LocationManager implements AMapLocationListener {
     @Override
     public void onLocationChanged(AMapLocation location) {
 
-        Log.d(TAG, location.toStr());
         if (location != null && location.getErrorCode() == 0 && listener != null) {
             listener.locationChanged(location);
         }

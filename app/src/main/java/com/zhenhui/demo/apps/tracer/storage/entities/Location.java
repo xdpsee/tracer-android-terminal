@@ -1,9 +1,10 @@
 package com.zhenhui.demo.apps.tracer.storage.entities;
 
 import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Index;
+import org.greenrobot.greendao.annotation.NotNull;
 
 import java.util.Date;
 
@@ -17,21 +18,28 @@ public class Location {
     @Id
     private Long id;
 
+    @NotNull
     private Double latitude;
 
+    @NotNull
     private Double longitude;
 
+    @NotNull
     private Double speed;
 
+    @NotNull
     private Double accuracy;
 
+    @NotNull
     private Date timestamp;
 
+    @NotNull
     private Integer status = 0;
 
-    @Generated(hash = 1392241452)
-    public Location(Long id, Double latitude, Double longitude, Double speed,
-                    Double accuracy, Date timestamp, Integer status) {
+    @Generated(hash = 520895325)
+    public Location(Long id, @NotNull Double latitude, @NotNull Double longitude,
+            @NotNull Double speed, @NotNull Double accuracy,
+            @NotNull Date timestamp, @NotNull Integer status) {
         this.id = id;
         this.latitude = latitude;
         this.longitude = longitude;

@@ -32,6 +32,8 @@ import java.util.Date;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import io.netty.util.concurrent.Future;
+import io.netty.util.concurrent.FutureListener;
 
 public class TrackingService extends Service implements ClientListener, LocationListener {
 
@@ -134,8 +136,25 @@ public class TrackingService extends Service implements ClientListener, Location
     }
 
     @Override
-    public void locationChanged(AMapLocation location) {
+    public void locationChanged(final AMapLocation location) {
 
+        Log.d(TAG, "location changed, " + location.toStr());
+
+        if (!NettyClient.getInstance().sendMessage("", new FutureListener() {
+            @Override
+            public void operationComplete(Future future) throws Exception {
+                if (!future.isSuccess()) {
+                    saveLocation(location);
+                } else {
+                    Log.i(TAG, "send message success, ");
+                }
+            }
+        })) {
+            saveLocation(location);
+        }
+    }
+
+    private void saveLocation(AMapLocation location) {
         try {
             Location loc = new Location();
             loc.setLatitude(location.getLatitude());

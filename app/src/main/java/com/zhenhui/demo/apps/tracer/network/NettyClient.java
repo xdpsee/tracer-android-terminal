@@ -27,15 +27,17 @@ public class NettyClient {
 
     private Channel channel;
 
-    private boolean isConnect = false;
+    private volatile boolean isConnect = false;
 
     private int reconnectNum = Integer.MAX_VALUE;
 
     private long reconnectIntervalTime = 5000;
 
-
     public static NettyClient getInstance() {
         return nettyClient;
+    }
+
+    private NettyClient() {
     }
 
     public synchronized NettyClient connect() {
@@ -66,7 +68,7 @@ public class NettyClient {
         return this;
     }
 
-    public void disconnect() {
+    public synchronized void disconnect() {
         group.shutdownGracefully();
     }
 
@@ -90,22 +92,29 @@ public class NettyClient {
      *
      * @param futureListener 发送成功与否的监听
      */
-    public void sendMessage(String message, FutureListener futureListener) {
+    public synchronized boolean sendMessage(final String message, final FutureListener futureListener) {
         boolean flag = channel != null && isConnect;
         if (!flag) {
             Log.e(TAG, "------尚未连接");
-            return;
+            return false;
         }
+
         if (futureListener == null) {
             channel.writeAndFlush(message).addListener(new GenericFutureListener<Future<? super Void>>() {
                 @Override
                 public void operationComplete(Future<? super Void> future) throws Exception {
-
+                    if (future.isSuccess()) {
+                        Log.d(TAG, "send message success, " + message);
+                    } else {
+                        Log.d(TAG, "send message failure, " + message);
+                    }
                 }
             });
         } else {
             channel.writeAndFlush(message).addListener(futureListener);
         }
+
+        return true;
     }
 
     /**
