@@ -1,6 +1,3 @@
-/**
- *
- */
 package com.zhenhui.demo.apps.tracer.permission;
 
 import android.Manifest;
@@ -74,9 +71,6 @@ public class PermissionCheckActivity extends Activity {
 
     /**
      *
-     * @param permissions
-     * @since 2.5.0
-     *
      */
     private void checkPermissions(String... permissions) {
         try {
@@ -98,11 +92,6 @@ public class PermissionCheckActivity extends Activity {
 
     /**
      * 获取权限集中需要申请权限的列表
-     *
-     * @param permissions
-     * @return
-     * @since 2.5.0
-     *
      */
     private List<String> findDeniedPermissions(String[] permissions) {
         List<String> needRequestPermissonList = new ArrayList<String>();
@@ -131,9 +120,6 @@ public class PermissionCheckActivity extends Activity {
 
     /**
      * 检测是否所有的权限都已经授权
-     * @param grantResults
-     * @return
-     * @since 2.5.0
      *
      */
     private boolean verifyPermissions(int[] grantResults) {
@@ -158,9 +144,6 @@ public class PermissionCheckActivity extends Activity {
 
     /**
      * 显示提示信息
-     *
-     * @since 2.5.0
-     *
      */
     private void showMissingPermissionDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -191,9 +174,6 @@ public class PermissionCheckActivity extends Activity {
 
     /**
      *  启动应用的设置
-     *
-     * @since 2.5.0
-     *
      */
     private void startAppSettings() {
         Intent intent = new Intent(
