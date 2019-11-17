@@ -53,7 +53,7 @@
             android:value="839d9a11b5ea1b0aa5aa65a434c8daec">
 
         </meta-data>
-        <activity android:name=".SettingsActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

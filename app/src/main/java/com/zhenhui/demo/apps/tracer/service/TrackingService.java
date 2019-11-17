@@ -16,8 +16,8 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.amap.api.location.AMapLocation;
+import com.zhenhui.demo.apps.tracer.MainActivity;
 import com.zhenhui.demo.apps.tracer.R;
-import com.zhenhui.demo.apps.tracer.SettingsActivity;
 import com.zhenhui.demo.apps.tracer.location.LocationListener;
 import com.zhenhui.demo.apps.tracer.location.LocationManager;
 import com.zhenhui.demo.apps.tracer.network.ClientListener;
@@ -71,7 +71,7 @@ public class TrackingService extends Service implements ClientListener, Location
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         createNotificationChannel();
-        Intent notificationIntent = new Intent(this, SettingsActivity.class);
+        Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
                 0, notificationIntent, 0);
 
@@ -140,7 +140,17 @@ public class TrackingService extends Service implements ClientListener, Location
 
         Log.d(TAG, "location changed, " + location.toStr());
 
-        if (!NettyClient.getInstance().sendMessage("", new FutureListener() {
+        String message = String.format("##2,888888888888888,%.6f,%.6f,%.3f,%.1f,%.2f,%d,%d,alarms=%s#"
+                , location.getLatitude()
+                , location.getLongitude()
+                , location.getAltitude()
+                , location.getBearing()
+                , location.getSpeed()
+                , location.getTime()
+                , 0
+                , "no");
+
+        if (!NettyClient.getInstance().sendMessage(message, new FutureListener() {
             @Override
             public void operationComplete(Future future) throws Exception {
                 if (!future.isSuccess()) {

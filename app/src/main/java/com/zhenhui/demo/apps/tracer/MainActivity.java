@@ -10,7 +10,7 @@ import com.zhenhui.demo.apps.tracer.service.TrackingService;
 
 import androidx.core.content.ContextCompat;
 
-public class SettingsActivity extends PermissionCheckActivity {
+public class MainActivity extends PermissionCheckActivity {
 
     private Button buttonStart;
 
